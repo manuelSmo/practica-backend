@@ -37,12 +37,20 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public ClientDto getClient(Long numberId) {
-        return null;
+        Client encontrado = clientRepository.findById(numberId).orElse(null);
+
+        return ClientMapper.INSTANCE.clientToDto(encontrado);
+
     }
 
     @Override
     public ClientDto createClient(ClientDto clientDto) {
 
+        ClientDto clienteDB = this.getClient(clientDto.getNumberId());
+
+        if (clienteDB != null){
+            return clienteDB;
+        }
         Client actual = ClientMapper.INSTANCE.dtoToClient(clientDto);
 
         return ClientMapper.INSTANCE.clientToDto(clientRepository.save(actual));
@@ -50,22 +58,51 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public ClientDto updateClient(ClientDto clientDto) {
-        return null;
+
+        Client cliente = ClientMapper.INSTANCE.dtoToClient(getClient(clientDto.getNumberId()));
+        if (cliente == null){
+            return null;
+        }
+
+        cliente.setFirstName(clientDto.getFirstName());
+        cliente.setLastName(clientDto.getLastName());
+        cliente.setIdType(clientDto.getIdType());
+        cliente.setAge(clientDto.getAge());
+        cliente.setCity(clientDto.getCity());
+
+        return ClientMapper.INSTANCE.clientToDto(clientRepository.save(cliente));
     }
 
     @Override
     public ClientDto deleteClient(Long numberId) {
-        return null;
+
+        Client cliente = clientRepository.findById(numberId).orElse(null);
+        if (cliente == null){
+            return null;
+        }
+        clientRepository.delete(cliente);
+        return ClientMapper.INSTANCE.clientToDto(cliente);
+
     }
 
     @Override
     public ClientDto findByIdTypeAndNumberId(String idType, Long numberId) {
-        return null;
+        Client encontrado = clientRepository.findByIdTypeAndNumberId(idType,numberId);
+        return ClientMapper.INSTANCE.clientToDto(encontrado);
     }
 
     @Override
-    public ClientDto findByAgeGreaterThanEqual(Integer age) {
-        return null;
+    public List<ClientDto> findByAgeGreaterThanEqual(Integer age) {
+
+        List<ClientDto> clientesDto = new ArrayList<>();
+        List<Client> clientes= clientRepository.findByAgeGreaterThanEqual(age);
+        if (!clientes.isEmpty()){
+            for (Client client : clientes){
+                ClientDto encontrado = ClientMapper.INSTANCE.clientToDto(client);
+                clientesDto.add(encontrado);
+            }
+        }
+        return clientesDto;
     }
 
 }

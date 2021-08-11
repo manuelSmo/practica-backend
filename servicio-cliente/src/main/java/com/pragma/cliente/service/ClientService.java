@@ -20,5 +20,5 @@ public interface ClientService {
 
      ClientDto findByIdTypeAndNumberId(String idType, Long numberId);
 
-     ClientDto findByAgeGreaterThanEqual(Integer age);
+     List<ClientDto> findByAgeGreaterThanEqual(Integer age);
 }

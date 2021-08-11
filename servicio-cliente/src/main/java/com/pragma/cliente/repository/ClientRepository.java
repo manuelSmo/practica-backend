@@ -10,7 +10,4 @@ public interface ClientRepository extends JpaRepository<Client,Long> {
 
     Client findByIdTypeAndNumberId(String idType, Long numberId);
     List<Client> findByAgeGreaterThanEqual(Integer age);
-
-    //Client findByNumberId(Long numberId);
-
 }
