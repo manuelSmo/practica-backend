@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pragma.cliente.dto.ClientDto;
 
+import com.pragma.cliente.dto.ClientWithPhotoDto;
 import com.pragma.cliente.service.ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,16 @@ public class ClientController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<ClientDto> getClient(@PathVariable("id") Long id){
         ClientDto encontrado = clientService.getClient(id);
+        if (encontrado == null){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(encontrado);
+
+    }
+
+    @GetMapping("/foto")
+    public ResponseEntity<ClientWithPhotoDto> getClientWithPhoto(@RequestParam(name = "clientId") Long id){
+        ClientWithPhotoDto encontrado = clientService.getClientWithPhoto(id);
         if (encontrado == null){
             return ResponseEntity.noContent().build();
         }

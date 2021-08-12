@@ -1,5 +1,6 @@
 package com.pragma.cliente.entity;
 
+import com.pragma.cliente.model.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -29,8 +31,8 @@ public class Client {
 
     private String city;
 
-    //@Transient
-    //private Photo photo;
+    @Transient
+    private Photo photo;
 
 
 }

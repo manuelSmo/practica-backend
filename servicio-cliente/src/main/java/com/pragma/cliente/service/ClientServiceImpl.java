@@ -1,8 +1,12 @@
 package com.pragma.cliente.service;
 
+import com.pragma.cliente.client.PhotoClient;
 import com.pragma.cliente.dto.ClientDto;
+import com.pragma.cliente.dto.ClientWithPhotoDto;
+import com.pragma.cliente.dto.PhotoDto;
 import com.pragma.cliente.entity.Client;
 import com.pragma.cliente.mapper.ClientMapper;
+import com.pragma.cliente.model.Photo;
 import com.pragma.cliente.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,8 @@ public class ClientServiceImpl implements ClientService{
     @Autowired
     private final ClientRepository clientRepository;
 
+    @Autowired
+    PhotoClient photoClient;
 
     @Override
     public List<ClientDto> listAllClients() {
@@ -40,6 +46,21 @@ public class ClientServiceImpl implements ClientService{
         Client encontrado = clientRepository.findById(numberId).orElse(null);
 
         return ClientMapper.INSTANCE.clientToDto(encontrado);
+
+    }
+
+    @Override
+    public ClientWithPhotoDto getClientWithPhoto(Long numberId) {
+        Client encontrado = clientRepository.findById(numberId).orElse(null);
+
+        if (encontrado != null){
+            PhotoDto photo = photoClient.getPhotoByClientId(numberId).getBody();
+            ClientWithPhotoDto clientWithPhotoDto= ClientMapper.INSTANCE.clientToClientWithPhotoDto(encontrado,photo);
+            //encontrado.setPhoto(ClientMapper.INSTANCE.dtoToPhoto(photo));
+            return clientWithPhotoDto;
+        }
+
+        return null;
 
     }
 

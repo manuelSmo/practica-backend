@@ -1,6 +1,7 @@
 package com.pragma.cliente.service;
 
 import com.pragma.cliente.dto.ClientDto;
+import com.pragma.cliente.dto.ClientWithPhotoDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,9 @@ public interface ClientService {
 
      ClientDto getClient(Long numberId);
 
-     ClientDto createClient(ClientDto clientDto);
+    ClientWithPhotoDto getClientWithPhoto(Long numberId);
+
+    ClientDto createClient(ClientDto clientDto);
 
      ClientDto updateClient(ClientDto clientDto);
 

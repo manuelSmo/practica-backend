@@ -1,14 +1,9 @@
 package com.pragma.cliente.dto;
 
-import com.pragma.cliente.model.Photo;
-import lombok.Data;
-
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
-@Data
-public class ClientDto {
+public class ClientWithPhotoDto {
 
     @Id
     private Long numberId;
@@ -27,4 +22,7 @@ public class ClientDto {
     @NotEmpty(message = "La ciudad no debe ser vacía")
     private String city;
 
+    private Long clientId;
+
+    private String photo;
 }
