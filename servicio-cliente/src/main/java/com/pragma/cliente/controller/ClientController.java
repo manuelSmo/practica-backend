@@ -37,7 +37,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ClientDto> getClient(@PathVariable("id") long id){
+    public ResponseEntity<ClientDto> getClient(@PathVariable("id") Long id){
         ClientDto encontrado = clientService.getClient(id);
         if (encontrado == null){
             return ResponseEntity.noContent().build();
@@ -58,7 +58,7 @@ public class ClientController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ClientDto> updateClient(@PathVariable("id") long id ,@RequestBody ClientDto clientDto){
+    public ResponseEntity<ClientDto> updateClient(@PathVariable("id") Long id ,@RequestBody ClientDto clientDto){
         clientDto.setNumberId(id);
         ClientDto actual= clientService.updateClient(clientDto);
 
@@ -69,7 +69,7 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<ClientDto> deleteClient(@PathVariable("id") long id){
+    public ResponseEntity<ClientDto> deleteClient(@PathVariable("id") Long id){
 
         clientService.deleteClient(id);
 
@@ -78,7 +78,7 @@ public class ClientController {
 
     @GetMapping("/filtros")
     public ResponseEntity<ClientDto> findByIdTypeAndNumberId(@RequestParam(name = "idType") String idType,
-                                                             @RequestParam(name = "numberId")long id){
+                                                             @RequestParam(name = "numberId")Long id){
         ClientDto encontrado = clientService.findByIdTypeAndNumberId(idType,id);
         if (encontrado == null){
             return ResponseEntity.notFound().build();
