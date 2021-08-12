@@ -47,7 +47,7 @@ public class ClientController {
 
     }
 
-    @GetMapping("/foto")
+    @GetMapping("/fotos")
     public ResponseEntity<ClientWithPhotoDto> getClientWithPhoto(@RequestParam(name = "clientId") Long id){
         ClientWithPhotoDto encontrado = clientService.getClientWithPhoto(id);
         if (encontrado == null){

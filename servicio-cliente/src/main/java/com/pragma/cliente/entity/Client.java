@@ -1,5 +1,6 @@
 package com.pragma.cliente.entity;
 
+import com.pragma.cliente.dto.PhotoDto;
 import com.pragma.cliente.model.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +33,7 @@ public class Client {
     private String city;
 
     @Transient
-    private Photo photo;
+    private PhotoDto photoDto;
 
 
 }

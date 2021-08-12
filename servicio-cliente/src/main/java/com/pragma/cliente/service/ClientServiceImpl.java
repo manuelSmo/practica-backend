@@ -55,9 +55,11 @@ public class ClientServiceImpl implements ClientService{
 
         if (encontrado != null){
             PhotoDto photo = photoClient.getPhotoByClientId(numberId).getBody();
-            ClientWithPhotoDto clientWithPhotoDto= ClientMapper.INSTANCE.clientToClientWithPhotoDto(encontrado,photo);
-            //encontrado.setPhoto(ClientMapper.INSTANCE.dtoToPhoto(photo));
-            return clientWithPhotoDto;
+            if (photo != null) {
+                ClientWithPhotoDto clientWithPhotoDto = ClientMapper.INSTANCE.clientToClientWithPhotoDto(encontrado, photo);
+                //encontrado.setPhoto(ClientMapper.INSTANCE.dtoToPhoto(photo));
+                return clientWithPhotoDto;
+            }
         }
 
         return null;
@@ -72,9 +74,16 @@ public class ClientServiceImpl implements ClientService{
         if (clienteDB != null){
             return clienteDB;
         }
-        Client actual = ClientMapper.INSTANCE.dtoToClient(clientDto);
 
-        return ClientMapper.INSTANCE.clientToDto(clientRepository.save(actual));
+        Client actual = ClientMapper.INSTANCE.dtoToClient(clientDto);
+        PhotoDto photoDto = clientDto.getPhotoDto();
+
+        if (photoDto != null){
+            photoClient.createPhoto(photoDto);
+            //actual.setPhotoDto(photoDto);
+        }
+        ClientMapper.INSTANCE.clientToDto(clientRepository.save(actual));
+        return clientDto;
     }
 
     @Override

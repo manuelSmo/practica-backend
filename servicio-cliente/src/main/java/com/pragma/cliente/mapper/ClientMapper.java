@@ -16,9 +16,6 @@ public interface ClientMapper {
     ClientDto clientToDto(Client client);
     Client dtoToClient(ClientDto clientDto);
 
-    //Photo dtoToPhoto(PhotoDto photoDto);
-    //PhotoDto photoToDto(Photo photo);
-
     ClientWithPhotoDto clientToClientWithPhotoDto(Client client, PhotoDto photoDto);
 
 
