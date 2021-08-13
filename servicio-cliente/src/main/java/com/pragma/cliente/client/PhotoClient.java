@@ -13,12 +13,12 @@ public interface PhotoClient {
     @GetMapping(value = "/photos/{id}")
     public ResponseEntity<PhotoDto> getPhotoByClientId(@PathVariable("id") Long id);
 
-    @PostMapping
+    @PostMapping(value = "/photos")
     public ResponseEntity<PhotoDto> createPhoto(@Valid @RequestBody PhotoDto photoDto);
 
     @DeleteMapping(value = "/photos/{id}")
     public ResponseEntity<PhotoDto> deletePhoto(@PathVariable("id") Long id);
 
-    @PutMapping
+    @PutMapping(value = "/photos")
     public ResponseEntity<PhotoDto> updatePhoto(@RequestBody PhotoDto photoDto);
 }

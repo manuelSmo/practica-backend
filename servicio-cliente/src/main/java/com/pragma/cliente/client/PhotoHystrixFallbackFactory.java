@@ -5,11 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PhotoHystrixFallbackFactory implements PhotoClient{
+public class PhotoHystrixFallbackFactory implements PhotoClient {
 
     @Override
     public ResponseEntity<PhotoDto> getPhotoByClientId(Long id) {
-        PhotoDto photoDto= PhotoDto.builder()
+        PhotoDto photoDto = PhotoDto.builder()
                 .clientId(0L)
                 .photo("none")
                 .build();
@@ -18,7 +18,7 @@ public class PhotoHystrixFallbackFactory implements PhotoClient{
 
     @Override
     public ResponseEntity<PhotoDto> createPhoto(PhotoDto photoDto) {
-        PhotoDto photo= PhotoDto.builder()
+        PhotoDto photo = PhotoDto.builder()
                 .clientId(0L)
                 .photo("none")
                 .build();
@@ -27,7 +27,7 @@ public class PhotoHystrixFallbackFactory implements PhotoClient{
 
     @Override
     public ResponseEntity<PhotoDto> deletePhoto(Long id) {
-        PhotoDto photo= PhotoDto.builder()
+        PhotoDto photo = PhotoDto.builder()
                 .clientId(0L)
                 .photo("none")
                 .build();
@@ -36,7 +36,7 @@ public class PhotoHystrixFallbackFactory implements PhotoClient{
 
     @Override
     public ResponseEntity<PhotoDto> updatePhoto(PhotoDto photoDto) {
-        PhotoDto photo= PhotoDto.builder()
+        PhotoDto photo = PhotoDto.builder()
                 .clientId(0L)
                 .photo("none")
                 .build();

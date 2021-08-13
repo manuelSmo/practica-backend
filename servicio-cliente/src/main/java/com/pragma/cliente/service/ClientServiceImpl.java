@@ -1,11 +1,10 @@
 package com.pragma.cliente.service;
 
 import com.pragma.cliente.client.PhotoClient;
-import com.pragma.cliente.model.ClientDto;
-import com.pragma.cliente.model.ClientWithPhotoDto;
-import com.pragma.cliente.model.PhotoDto;
 import com.pragma.cliente.entity.Client;
 import com.pragma.cliente.mapper.ClientMapper;
+import com.pragma.cliente.model.ClientDto;
+import com.pragma.cliente.model.PhotoDto;
 import com.pragma.cliente.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private final ClientRepository clientRepository;
@@ -31,9 +30,11 @@ public class ClientServiceImpl implements ClientService{
         List<ClientDto> clientesDto = new ArrayList<>();
         List<Client> clients = clientRepository.findAll();
 
-        if (!clients.isEmpty()){
-            for (Client client : clients){
+        if (!clients.isEmpty()) {
+            for (Client client : clients) {
                 ClientDto encontrado = ClientMapper.INSTANCE.clientToDto(client);
+                PhotoDto photoDto = photoClient.getPhotoByClientId(encontrado.getNumberId()).getBody();
+                encontrado.setPhotoDto(photoDto);
                 clientesDto.add(encontrado);
             }
         }
@@ -44,44 +45,34 @@ public class ClientServiceImpl implements ClientService{
     public ClientDto getClient(Long numberId) {
         Client encontrado = clientRepository.findById(numberId).orElse(null);
 
-        return ClientMapper.INSTANCE.clientToDto(encontrado);
-
-    }
-
-    @Override
-    public ClientWithPhotoDto getClientWithPhoto(Long numberId) {
-        Client encontrado = clientRepository.findById(numberId).orElse(null);
-
-        if (encontrado != null){
-            PhotoDto photo = photoClient.getPhotoByClientId(numberId).getBody();
-            if (photo != null) {
-                ClientWithPhotoDto clientWithPhotoDto = ClientMapper.INSTANCE.clientToClientWithPhotoDto(encontrado, photo);
-                //encontrado.setPhoto(ClientMapper.INSTANCE.dtoToPhoto(photo));
-                return clientWithPhotoDto;
+        if (encontrado != null) {
+            PhotoDto photoDto = photoClient.getPhotoByClientId(numberId).getBody();
+            if (photoDto != null) {
+                encontrado.setPhotoDto(photoDto);
             }
+            return ClientMapper.INSTANCE.clientToDto(encontrado);
         }
-
         return null;
-
     }
 
     @Override
     public ClientDto createClient(ClientDto clientDto) {
-
         ClientDto clienteDB = this.getClient(clientDto.getNumberId());
 
-        if (clienteDB != null){
+        if (clienteDB != null) {
             return clienteDB;
         }
-
         Client actual = ClientMapper.INSTANCE.dtoToClient(clientDto);
         PhotoDto photoDto = clientDto.getPhotoDto();
 
-        if (photoDto != null){
-            photoClient.createPhoto(photoDto);
-            //actual.setPhotoDto(photoDto);
+        if (photoDto != null) {
+            PhotoDto photo = photoClient.createPhoto(photoDto).getBody();
+            clientDto = ClientMapper.INSTANCE.clientToDto(clientRepository.save(actual));
+            clientDto.setPhotoDto(photo);
+            return clientDto;
         }
-        ClientMapper.INSTANCE.clientToDto(clientRepository.save(actual));
+
+        clientDto = ClientMapper.INSTANCE.clientToDto(clientRepository.save(actual));
         return clientDto;
     }
 
@@ -89,7 +80,7 @@ public class ClientServiceImpl implements ClientService{
     public ClientDto updateClient(ClientDto clientDto) {
 
         Client cliente = ClientMapper.INSTANCE.dtoToClient(getClient(clientDto.getNumberId()));
-        if (cliente == null){
+        if (cliente == null) {
             return null;
         }
 
@@ -99,12 +90,14 @@ public class ClientServiceImpl implements ClientService{
         cliente.setAge(clientDto.getAge());
         cliente.setCity(clientDto.getCity());
         PhotoDto photoDto = clientDto.getPhotoDto();
-        if (photoDto != null){
-            cliente.setPhotoDto(clientDto.getPhotoDto());
-            photoClient.updatePhoto(photoDto);
-        }
 
-        clientRepository.save(cliente);
+        if (photoDto != null) {
+            PhotoDto photo = photoClient.updatePhoto(photoDto).getBody();
+            ClientDto creado = ClientMapper.INSTANCE.clientToDto(clientRepository.save(cliente));
+            creado.setPhotoDto(photo);
+            return creado;
+        }
+        clientDto = ClientMapper.INSTANCE.clientToDto(clientRepository.save(cliente));
         return clientDto;
     }
 
@@ -112,12 +105,13 @@ public class ClientServiceImpl implements ClientService{
     public ClientDto deleteClient(Long numberId) {
 
         Client cliente = clientRepository.findById(numberId).orElse(null);
-        if (cliente == null){
+        if (cliente == null) {
             return null;
         }
         PhotoDto photoDto = photoClient.getPhotoByClientId(numberId).getBody();
-        if (photoDto != null){
+        if (photoDto != null) {
             photoClient.deletePhoto(photoDto.getClientId());
+            cliente.setPhotoDto(photoDto);
         }
         clientRepository.delete(cliente);
         return ClientMapper.INSTANCE.clientToDto(cliente);
@@ -125,18 +119,29 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public ClientDto findByIdTypeAndNumberId(String idType, Long numberId) {
-        Client encontrado = clientRepository.findByIdTypeAndNumberId(idType,numberId);
-        return ClientMapper.INSTANCE.clientToDto(encontrado);
+        Client encontrado = clientRepository.findByIdTypeAndNumberId(idType, numberId);
+
+        if (encontrado != null) {
+            PhotoDto photoDto = photoClient.getPhotoByClientId(numberId).getBody();
+            if (photoDto != null) {
+                encontrado.setPhotoDto(photoDto);
+            }
+            return ClientMapper.INSTANCE.clientToDto(encontrado);
+        }
+        return null;
+
     }
 
     @Override
     public List<ClientDto> findByAgeGreaterThanEqual(Integer age) {
 
         List<ClientDto> clientesDto = new ArrayList<>();
-        List<Client> clientes= clientRepository.findByAgeGreaterThanEqual(age);
-        if (!clientes.isEmpty()){
-            for (Client client : clientes){
+        List<Client> clientes = clientRepository.findByAgeGreaterThanEqual(age);
+        if (!clientes.isEmpty()) {
+            for (Client client : clientes) {
                 ClientDto encontrado = ClientMapper.INSTANCE.clientToDto(client);
+                PhotoDto photoDto = photoClient.getPhotoByClientId(encontrado.getNumberId()).getBody();
+                encontrado.setPhotoDto(photoDto);
                 clientesDto.add(encontrado);
             }
         }

@@ -14,7 +14,9 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "CLIENTE")
 @Data
-@AllArgsConstructor @NoArgsConstructor @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Client {
 
     @Id

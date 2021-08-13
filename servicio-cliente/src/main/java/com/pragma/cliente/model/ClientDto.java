@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
 @Data
@@ -31,7 +32,7 @@ public class ClientDto {
     @NotEmpty(message = "La ciudad no debe ser vacía")
     private String city;
 
-
+    @Transient
     private PhotoDto photoDto;
 
 }

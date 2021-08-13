@@ -3,8 +3,6 @@ package com.pragma.cliente.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pragma.cliente.model.ClientDto;
-
-import com.pragma.cliente.model.ClientWithPhotoDto;
 import com.pragma.cliente.service.ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,28 +27,18 @@ public class ClientController {
     ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<List<ClientDto>> listClients(){
-        List<ClientDto> clientes= clientService.listAllClients();
-        if (clientes.isEmpty()){
+    public ResponseEntity<List<ClientDto>> listClients() {
+        List<ClientDto> clientes = clientService.listAllClients();
+        if (clientes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(clientes);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ClientDto> getClient(@PathVariable("id") Long id){
+    public ResponseEntity<ClientDto> getClient(@PathVariable("id") Long id) {
         ClientDto encontrado = clientService.getClient(id);
-        if (encontrado == null){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(encontrado);
-
-    }
-
-    @GetMapping("/fotos")
-    public ResponseEntity<ClientWithPhotoDto> getClientWithPhoto(@RequestParam(name = "clientId") Long id){
-        ClientWithPhotoDto encontrado = clientService.getClientWithPhoto(id);
-        if (encontrado == null){
+        if (encontrado == null) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(encontrado);
@@ -58,9 +46,9 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDto> createClient(@Valid @RequestBody ClientDto clientDto, BindingResult result){
+    public ResponseEntity<ClientDto> createClient(@Valid @RequestBody ClientDto clientDto, BindingResult result) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
         }
         ClientDto clienteDB = clientService.createClient(clientDto);
@@ -69,18 +57,18 @@ public class ClientController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ClientDto> updateClient(@PathVariable("id") Long id ,@RequestBody ClientDto clientDto){
+    public ResponseEntity<ClientDto> updateClient(@PathVariable("id") Long id, @RequestBody ClientDto clientDto) {
         clientDto.setNumberId(id);
-        ClientDto actual= clientService.updateClient(clientDto);
+        ClientDto actual = clientService.updateClient(clientDto);
 
-        if (actual == null){
+        if (actual == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(actual);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<ClientDto> deleteClient(@PathVariable("id") Long id){
+    public ResponseEntity<ClientDto> deleteClient(@PathVariable("id") Long id) {
 
         clientService.deleteClient(id);
 
@@ -89,27 +77,27 @@ public class ClientController {
 
     @GetMapping("/filtros")
     public ResponseEntity<ClientDto> findByIdTypeAndNumberId(@RequestParam(name = "idType") String idType,
-                                                             @RequestParam(name = "numberId")Long id){
-        ClientDto encontrado = clientService.findByIdTypeAndNumberId(idType,id);
-        if (encontrado == null){
+                                                             @RequestParam(name = "numberId") Long id) {
+        ClientDto encontrado = clientService.findByIdTypeAndNumberId(idType, id);
+        if (encontrado == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(encontrado);
     }
 
     @GetMapping("/mayores")
-    public ResponseEntity<List<ClientDto>> findByIdTypeAndNumberId(@RequestParam(name = "age")Integer age){
+    public ResponseEntity<List<ClientDto>> findByIdTypeAndNumberId(@RequestParam(name = "age") Integer age) {
         List<ClientDto> encontrados = clientService.findByAgeGreaterThanEqual(age);
-        if (encontrados.isEmpty()){
+        if (encontrados.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(encontrados);
     }
 
-    private String formatMessage( BindingResult result){
-        List<Map<String,String>> errors = result.getFieldErrors().stream()
-                .map(err ->{
-                    Map<String,String> error =  new HashMap<>();
+    private String formatMessage(BindingResult result) {
+        List<Map<String, String>> errors = result.getFieldErrors().stream()
+                .map(err -> {
+                    Map<String, String> error = new HashMap<>();
                     error.put(err.getField(), err.getDefaultMessage());
                     return error;
 
@@ -118,7 +106,7 @@ public class ClientController {
                 .code("01")
                 .messages(errors).build();
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString="";
+        String jsonString = "";
         try {
             jsonString = mapper.writeValueAsString(errorMessage);
         } catch (JsonProcessingException e) {
