@@ -2,9 +2,9 @@ package com.pragma.cliente.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pragma.cliente.dto.ClientDto;
+import com.pragma.cliente.model.ClientDto;
 
-import com.pragma.cliente.dto.ClientWithPhotoDto;
+import com.pragma.cliente.model.ClientWithPhotoDto;
 import com.pragma.cliente.service.ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

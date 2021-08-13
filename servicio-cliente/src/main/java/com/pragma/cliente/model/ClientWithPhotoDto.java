@@ -1,20 +1,18 @@
-package com.pragma.cliente.dto;
+package com.pragma.cliente.model;
 
-import com.pragma.cliente.model.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClientDto {
+public class ClientWithPhotoDto {
 
     @Id
     private Long numberId;
@@ -34,5 +32,4 @@ public class ClientDto {
     private String city;
 
     private PhotoDto photoDto;
-
 }

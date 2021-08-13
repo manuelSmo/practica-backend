@@ -1,4 +1,4 @@
-package com.pragma.cliente.dto;
+package com.pragma.cliente.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

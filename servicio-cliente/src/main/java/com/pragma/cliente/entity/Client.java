@@ -1,7 +1,6 @@
 package com.pragma.cliente.entity;
 
-import com.pragma.cliente.dto.PhotoDto;
-import com.pragma.cliente.model.Photo;
+import com.pragma.cliente.model.PhotoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "CLIENTE")

@@ -1,10 +1,9 @@
 package com.pragma.cliente.mapper;
 
-import com.pragma.cliente.dto.ClientDto;
-import com.pragma.cliente.dto.ClientWithPhotoDto;
-import com.pragma.cliente.dto.PhotoDto;
+import com.pragma.cliente.model.ClientDto;
+import com.pragma.cliente.model.ClientWithPhotoDto;
+import com.pragma.cliente.model.PhotoDto;
 import com.pragma.cliente.entity.Client;
-import com.pragma.cliente.model.Photo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

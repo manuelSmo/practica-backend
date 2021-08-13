@@ -1,6 +1,5 @@
-package com.pragma.cliente.dto;
+package com.pragma.cliente.model;
 
-import com.pragma.cliente.model.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClientWithPhotoDto {
+public class ClientDto {
 
     @Id
     private Long numberId;
@@ -32,5 +31,7 @@ public class ClientWithPhotoDto {
     @NotEmpty(message = "La ciudad no debe ser vacía")
     private String city;
 
+
     private PhotoDto photoDto;
+
 }

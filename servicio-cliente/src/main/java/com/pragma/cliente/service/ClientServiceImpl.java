@@ -1,12 +1,11 @@
 package com.pragma.cliente.service;
 
 import com.pragma.cliente.client.PhotoClient;
-import com.pragma.cliente.dto.ClientDto;
-import com.pragma.cliente.dto.ClientWithPhotoDto;
-import com.pragma.cliente.dto.PhotoDto;
+import com.pragma.cliente.model.ClientDto;
+import com.pragma.cliente.model.ClientWithPhotoDto;
+import com.pragma.cliente.model.PhotoDto;
 import com.pragma.cliente.entity.Client;
 import com.pragma.cliente.mapper.ClientMapper;
-import com.pragma.cliente.model.Photo;
 import com.pragma.cliente.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,8 +98,14 @@ public class ClientServiceImpl implements ClientService{
         cliente.setIdType(clientDto.getIdType());
         cliente.setAge(clientDto.getAge());
         cliente.setCity(clientDto.getCity());
+        PhotoDto photoDto = clientDto.getPhotoDto();
+        if (photoDto != null){
+            cliente.setPhotoDto(clientDto.getPhotoDto());
+            photoClient.updatePhoto(photoDto);
+        }
 
-        return ClientMapper.INSTANCE.clientToDto(clientRepository.save(cliente));
+        clientRepository.save(cliente);
+        return clientDto;
     }
 
     @Override
@@ -110,9 +115,12 @@ public class ClientServiceImpl implements ClientService{
         if (cliente == null){
             return null;
         }
+        PhotoDto photoDto = photoClient.getPhotoByClientId(numberId).getBody();
+        if (photoDto != null){
+            photoClient.deletePhoto(photoDto.getClientId());
+        }
         clientRepository.delete(cliente);
         return ClientMapper.INSTANCE.clientToDto(cliente);
-
     }
 
     @Override

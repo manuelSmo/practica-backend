@@ -1,7 +1,7 @@
 package com.pragma.cliente.service;
 
-import com.pragma.cliente.dto.ClientDto;
-import com.pragma.cliente.dto.ClientWithPhotoDto;
+import com.pragma.cliente.model.ClientDto;
+import com.pragma.cliente.model.ClientWithPhotoDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
