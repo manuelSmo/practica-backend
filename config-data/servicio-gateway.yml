@@ -16,11 +16,11 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: servico-cliente
-          uri: lb://servicio-cliente
-          predicates:
-            - Path=/clientes/**
         - id: servicio-foto
-          uri: lb://servicio-foto
+          uri: http://localhost:8092
           predicates:
             - Path=/fotos/**
+        - id: servicio-cliente
+          uri: http://localhost:8091
+          predicates:
+            - Path=/clientes/**
