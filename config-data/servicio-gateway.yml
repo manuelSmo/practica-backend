@@ -19,7 +19,7 @@ spring:
         - id: servicio-foto
           uri: http://localhost:8092
           predicates:
-            - Path=/fotos/**
+            - Path=/photos/**
         - id: servicio-cliente
           uri: http://localhost:8091
           predicates:
