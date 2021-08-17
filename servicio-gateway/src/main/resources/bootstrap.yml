@@ -1,7 +1,6 @@
 spring:
   application:
-    name: gateway-service
-  cloud:
+    name: servicio-gateway
     config:
       uri: http://localhost:8081
       username: root
