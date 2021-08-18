@@ -6,6 +6,7 @@ import com.pragma.cliente.mapper.ClientMapper;
 import com.pragma.cliente.model.ClientDto;
 import com.pragma.cliente.model.PhotoDto;
 import com.pragma.cliente.repository.ClientRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+//@AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
     @Autowired
